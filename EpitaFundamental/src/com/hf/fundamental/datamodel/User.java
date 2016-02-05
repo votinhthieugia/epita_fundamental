@@ -4,7 +4,7 @@
 
 package com.hf.fundamental.datamodel;
 
-public class User extends Identity{
+public class User extends Identity {
 	
 	String password;
 
