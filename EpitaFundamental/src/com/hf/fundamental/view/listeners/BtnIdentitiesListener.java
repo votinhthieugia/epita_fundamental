@@ -6,6 +6,6 @@ import com.hf.fundamental.view.ViewIndex;
 public class BtnIdentitiesListener extends BaseListener {
 	@Override
 	protected void execute() {
-		ViewController.getInstance().showView(ViewIndex.READALL);
+		ViewController.getInstance().showView(ViewIndex.LIST);
 	}
 }

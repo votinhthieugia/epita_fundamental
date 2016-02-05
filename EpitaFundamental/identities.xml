@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <identities>
+<identity>
+    <property name="displayName">Favio</property>
+    <property name="uid">4865341</property>
+    <property name="email">faviotejada7@gmail.com</property>
+    <property name="address">3 Av. Robespierre</property>
+    <property name="Telephone">2420492</property>
+  </identity>
 </identities>

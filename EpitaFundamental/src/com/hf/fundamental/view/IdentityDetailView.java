@@ -67,7 +67,7 @@ public class IdentityDetailView extends JFrame {
 	 * Create the frame.
 	 */
 	public IdentityDetailView() {
-		ViewController.getInstance().addFrame(ViewIndex.SEARCH, this);
+		ViewController.getInstance().addFrame(ViewIndex.DETAIL, this);
 		initComponents();
 		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put("age", "10");
