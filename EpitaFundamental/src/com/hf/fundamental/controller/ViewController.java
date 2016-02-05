@@ -90,7 +90,7 @@ public class ViewController {
 			nextView.setVisible(true);
 			setCurrentView(nextView);
 			break;
-		case ViewIndex.SEARCH:
+		case ViewIndex.DETAIL:
 			nextView = listFrames.get(index);
 			
 			if (nextView == null) {

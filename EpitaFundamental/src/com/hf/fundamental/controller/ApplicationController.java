@@ -33,8 +33,8 @@ public class ApplicationController {
 		try {
 			switch (dbType) {
 			case Storage.XML:
-				identityController = XMLIdentityController.getInstance();
-				userController = XMLUserController.getInstance();
+				identityController = XMLIdentityController.getInstance(dbType);
+				userController = XMLUserController.getInstance(dbType);
 				break;
 			default:
 				identityController = SQLIdentityController.getInstance(dbType);
