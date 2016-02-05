@@ -4,13 +4,7 @@
 
 package com.hf.fundamental.controller;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-import org.jvnet.substance.SubstanceLookAndFeel;
-
 import com.hf.fundamental.dao.Storage;
-import com.hf.fundamental.view.LoginView;
 
 
 public class ApplicationController {

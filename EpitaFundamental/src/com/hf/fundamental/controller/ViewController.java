@@ -1,7 +1,6 @@
 package com.hf.fundamental.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -9,9 +8,9 @@ import javax.swing.SwingUtilities;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
 
-import com.hf.fundamental.dao.XMLUserDAO;
-import com.hf.fundamental.datamodel.Identity;
+import com.hf.fundamental.view.IdentityDetailView;
 import com.hf.fundamental.view.LoginView;
+import com.hf.fundamental.view.MenuView;
 import com.hf.fundamental.view.ViewIndex;
 
 public class ViewController {
@@ -66,7 +65,7 @@ public class ViewController {
 	}
 	
 	public void showView(int index){
-		if ( getCurrentView() != null){
+		if (getCurrentView() != null) {
 			getCurrentView().setVisible(false);			
 		}		
 		switch (index) {
@@ -80,7 +79,28 @@ public class ViewController {
 			nextView.setVisible(true);
 			setCurrentView(nextView);
 			break;
-
+		case ViewIndex.MENU:
+			nextView = listFrames.get(index);
+			
+			if (nextView == null) {
+				nextView = new MenuView();
+			}
+			
+			System.out.println(nextView.toString());
+			nextView.setVisible(true);
+			setCurrentView(nextView);
+			break;
+		case ViewIndex.SEARCH:
+			nextView = listFrames.get(index);
+			
+			if (nextView == null) {
+				nextView = new IdentityDetailView();
+			}
+			
+			System.out.println(nextView.toString());
+			nextView.setVisible(true);
+			setCurrentView(nextView);
+			break;
 		default:
 			break;
 		}
