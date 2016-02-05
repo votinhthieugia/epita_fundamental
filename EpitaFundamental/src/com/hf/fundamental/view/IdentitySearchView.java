@@ -164,8 +164,10 @@ public class IdentitySearchView extends JFrame {
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
-			public void valueChanged(ListSelectionEvent e) {				
-					sendObject(e);				
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting()) {
+					ViewController.getInstance().showView(ViewIndex.DETAIL, sendObject(e));
+				}
 			}
 
 			public Identity sendObject(ListSelectionEvent e) {
@@ -181,7 +183,7 @@ public class IdentitySearchView extends JFrame {
 						}
 					}
 				}
-				System.out.println(identity);
+				System.out.println(identity.toString());
 				return identity;
 			}
 		});

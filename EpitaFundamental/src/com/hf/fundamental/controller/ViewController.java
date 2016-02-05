@@ -8,6 +8,8 @@ import javax.swing.SwingUtilities;
 
 import org.jvnet.substance.SubstanceLookAndFeel;
 
+import com.hf.fundamental.datamodel.Identity;
+import com.hf.fundamental.view.CreateIdentityView;
 import com.hf.fundamental.view.IdentityDetailView;
 import com.hf.fundamental.view.IdentitySearchView;
 import com.hf.fundamental.view.LoginView;
@@ -65,7 +67,11 @@ public class ViewController {
 		});		
 	}
 
-	public void showView(int index){
+	public void showView(int index) {
+		showView(index, null);
+	}
+	
+	public void showView(int index, Object data) {
 		if (getCurrentView() != null) {
 			getCurrentView().setVisible(false);			
 		}		
@@ -109,7 +115,20 @@ public class ViewController {
 				nextView = new IdentityDetailView();
 			}
 
-			System.out.println(nextView.toString());
+			nextView.setVisible(true);
+			setCurrentView(nextView);
+			
+			if (data != null) {
+				((IdentityDetailView)nextView).setIdentity((Identity)data);
+			}
+			break;
+		case ViewIndex.CREATE:
+			nextView = listFrames.get(index);
+
+			if (nextView == null) {
+				nextView = new CreateIdentityView();
+			}
+
 			nextView.setVisible(true);
 			setCurrentView(nextView);
 			break;

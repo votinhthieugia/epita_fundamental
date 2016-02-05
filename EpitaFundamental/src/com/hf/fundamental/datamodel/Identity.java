@@ -124,6 +124,17 @@ public class Identity {
 		return json.toString();
 	}
 	
+	/**
+	 * Check if the identity is valid.
+	 */
+	public boolean isValid() {
+		if (displayName.equals("") || email.equals("")) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	@Override
 	public String toString() {
 		return "Identity [displayName=" + displayName + ", uid=" + uid + ", email=" + email + ", attributes="

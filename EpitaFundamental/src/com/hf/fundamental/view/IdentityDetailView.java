@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,11 +76,14 @@ public class IdentityDetailView extends JFrame {
 	public IdentityDetailView() {
 		ViewController.getInstance().addFrame(ViewIndex.DETAIL, this);
 		initComponents();
+	}
+
+	private Identity createFakeIdentity() {
 		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put("age", "10");
 		attributes.put("son", "mon");
 		Identity identity = new Identity("hoang", "uid", "email@gmail.com", attributes);
-		setIdentity(identity);
+		return identity;
 	}
 	
 	private void initComponents() {
@@ -203,15 +208,32 @@ public class IdentityDetailView extends JFrame {
 				}
 			}
 		});
+		
+		addComponentListener(new ComponentAdapter() {
+			public void componentHidden(ComponentEvent e) {
+				currentIdentity = null;
+			}
+			public void componentShown(ComponentEvent e) {
+				
+			}
+		});
 	}
 	
 	public void setIdentity(Identity identity) {
-		currentIdentity = identity;
+		try {
+			currentIdentity = ApplicationController.getIdentityController().search(identity).get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		textName.setText(identity.getDisplayName());
 		textEmail.setText(identity.getEmail());
-		Map<String, String> attributes = identity.getAttributes(); 
-		for (Map.Entry<String, String> entry: attributes.entrySet()) {
-			listModel.addElement(entry.getKey()  + ":" + entry.getValue());
+		Map<String, String> attributes = identity.getAttributes();
+		
+		if (attributes != null) {
+			for (Map.Entry<String, String> entry: attributes.entrySet()) {
+				listModel.addElement(entry.getKey()  + ":" + entry.getValue());
+			}
 		}
 	}
 	
@@ -222,9 +244,11 @@ public class IdentityDetailView extends JFrame {
 	}
 	
 	private void deleteAttribute() {
-		String[] array = list.getSelectedValue().split(":");
-		currentIdentity.getAttributes().remove(array[0]);
-		listModel.remove(list.getSelectedIndex());
+		if (list.getSelectedIndex() != -1) {
+			String[] array = list.getSelectedValue().split(":");
+			currentIdentity.getAttributes().remove(array[0]);
+			listModel.remove(list.getSelectedIndex());
+		}
 	}
 	
 	private void addAttribute() {
@@ -241,7 +265,11 @@ public class IdentityDetailView extends JFrame {
 		int answer = JOptionPane.showConfirmDialog(null, "Save?", "Confirmation", NORMAL);
 		if (answer == 0) {
 			try {
-				ApplicationController.getIdentityController().update(currentIdentity);
+				if (currentIdentity.isValid()) {
+					ApplicationController.getIdentityController().update(currentIdentity);
+				} else {
+					JOptionPane.showMessageDialog(null, "Name or email is not valid");
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
