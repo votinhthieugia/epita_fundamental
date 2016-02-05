@@ -21,6 +21,10 @@ import com.hf.fundamental.dao.Storage;
 
 public class LoginView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField userTextField;
 	private JPasswordField passwordTextField;

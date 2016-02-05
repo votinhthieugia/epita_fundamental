@@ -29,6 +29,10 @@ import com.hf.fundamental.view.listeners.BtnLogoutListener;
 
 public class IdentityDetailView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textName;
 	private JTextField textEmail;

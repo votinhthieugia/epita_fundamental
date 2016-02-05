@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -19,13 +20,13 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.hf.fundamental.datamodel.Identity;
-import com.hf.fundamental.match.impl.*;
+import com.hf.fundamental.match.impl.EqualsIdentityMatcher;
+import com.hf.fundamental.match.impl.UidIdentityMatcher;
 import com.hf.fundamental.services.match.Matcher;
-import com.hf.fundamental.util.*;
+import com.hf.fundamental.util.Reflection;
 
 /**
  * Class XMLIdentityDAO
@@ -201,7 +202,6 @@ public class XMLIdentityDAO implements IdentityDAO{
 		for (int i = 0; i < length; i++) {
 			Element identity = (Element) identitiesList.item(i);				
 			NodeList properties = identity.getElementsByTagName("property");
-			Identity identityInstance = new Identity();
 
 			int propertiesLength = properties.getLength();
 			for (int j = 0; j < propertiesLength; j++) {
