@@ -1,6 +1,8 @@
 package com.hf.fundamental.view;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
@@ -13,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -43,23 +46,12 @@ public class IdentitySearchView extends JFrame {
 	 * Create the frame.
 	 */
 	public IdentitySearchView() {
-		initComponents();
-		loadComboBox();	
-		try {			
-			loadTable((ArrayList<Identity>) ApplicationController.getIdentityController().listAll());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error ocurred with datasource");
-			System.out.println(e.toString());
-		}
+		initComponents();		
 	}
 
 	private void loadComboBox() {
-//		DefaultComboBoxModel model = new DefaultComboBoxModel<>();
-		List<Field> listFields = Reflection.getFields(new Identity());		
-		for (Field field : listFields) {
-			fieldComboBox.addItem(field.getName());
-		}
-		
+		fieldComboBox.addItem("displayName");
+		fieldComboBox.addItem("email");
 	}
 
 	private void loadTable(List<Identity> resultList) {				
@@ -106,13 +98,13 @@ public class IdentitySearchView extends JFrame {
 		panel.add(fieldComboBox);
 
 		textField = new JTextField();
-		textField.setBounds(428, 20, 86, 20);
+		textField.setBounds(367, 20, 147, 20);
 		panel.add(textField);
 		textField.setColumns(10);
 
 		JLabel lblValue = new JLabel("Value");
 		lblValue.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblValue.setBounds(343, 23, 46, 14);
+		lblValue.setBounds(311, 21, 46, 14);
 		panel.add(lblValue);
 
 		JButton searchButton = new JButton("Search");
@@ -128,11 +120,7 @@ public class IdentitySearchView extends JFrame {
 		lblList.setFont(new Font("Tahoma", Font.BOLD, 28));
 		lblList.setBounds(340, 26, 78, 26);
 		contentPane.add(lblList);
-
-		table = new JTable();
-		table.setBounds(36, 145, 701, 161);
-		contentPane.add(table);
-
+		
 		JButton backButton = new JButton("<< Back");
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -160,6 +148,13 @@ public class IdentitySearchView extends JFrame {
 		btnShowAll.setBounds(46, 322, 89, 23);
 		contentPane.add(btnShowAll);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(24, 132, 731, 174);
+		contentPane.add(scrollPane);
+		
+				table = new JTable();
+				scrollPane.setViewportView(table);
+		
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
@@ -173,17 +168,23 @@ public class IdentitySearchView extends JFrame {
 				for (int i = 0; i < table.getRowCount(); i++) {
 					for (int j = 0; j < table.getColumnCount(); j++) {
 						if (i == selectedRow) {
-							identity.setDisplayName( (String) table.getValueAt(i, 0));
-							identity.setUid(( (String) table.getValueAt(i, 1)) );
-							identity.setEmail(( (String) table.getValueAt(i, 2)) );
+							identity.setDisplayName( (String) table.getValueAt(i, 0));							
+							identity.setEmail(( (String) table.getValueAt(i, 1)) );
 							break;
 						}
 					}
-				}
-				System.out.println(identity);
+				}				
 				return identity;
 			}
 		});
+		
+		loadComboBox();	
+		try {			
+			loadTable((ArrayList<Identity>) ApplicationController.getIdentityController().listAll());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error ocurred with datasource");
+			System.out.println(e.toString());
+		}
 	}
 	
 	private void backButtonActionPerformed() {
