@@ -151,7 +151,6 @@ public class XMLIdentityDAO implements IdentityDAO{
 			for (int j = 0; j < propertiesLength; j++) {
 				Element property = (Element) properties.item(j);
 				String attribute = property.getAttribute("name");
-				System.out.println("readAll" + attribute);
 				String value = property.getTextContent().trim();				
 				if(j <= 2){ //because it traverses through the first 3 fields until it reaches the Map with additional fields
 					Reflection.invokeSetter(identityInstance, attribute, value);

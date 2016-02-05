@@ -8,13 +8,13 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -29,7 +29,7 @@ import com.hf.fundamental.datamodel.Identity;
 import com.hf.fundamental.view.listeners.BtnIdentitiesListener;
 import com.hf.fundamental.view.listeners.BtnLogoutListener;
 
-public class IdentityDetailView extends JFrame {
+public class CreateIdentityView extends JFrame {
 
 	/**
 	 * 
@@ -46,13 +46,14 @@ public class IdentityDetailView extends JFrame {
 	private JTextField textAttributeValue;
 	private JLabel lblValue;
 	private JButton btnDeleteAttribute;
-	private JButton btnDelete;
-	private JButton btnModify;
+	private JButton btnReset;
+	private JButton btnCreate;
 	private JButton btnIdentities;
 	private JButton btnLogout;
 	private JScrollPane scrollPane;
 	private DefaultListModel<String> listModel;
 	private Identity currentIdentity;
+	private Map<String, String> attributes;
 
 	/**
 	 * Launch the application.
@@ -61,7 +62,7 @@ public class IdentityDetailView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					IdentityDetailView frame = new IdentityDetailView();
+					CreateIdentityView frame = new CreateIdentityView();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -73,19 +74,13 @@ public class IdentityDetailView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IdentityDetailView() {
-		ViewController.getInstance().addFrame(ViewIndex.DETAIL, this);
+	public CreateIdentityView() {
+		ViewController.getInstance().addFrame(ViewIndex.CREATE, this);
 		initComponents();
+		currentIdentity = new Identity();
+		attributes = new HashMap<String, String>();
 	}
 
-	private Identity createFakeIdentity() {
-		Map<String, String> attributes = new HashMap<String, String>();
-		attributes.put("age", "10");
-		attributes.put("son", "mon");
-		Identity identity = new Identity("hoang", "uid", "email@gmail.com", attributes);
-		return identity;
-	}
-	
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 350);
@@ -128,7 +123,6 @@ public class IdentityDetailView extends JFrame {
 		list = new JList<String>();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setBounds(29, 117, 218, 128);
-//		contentPane.add(list);
 		
 		scrollPane = new JScrollPane(list);
 		scrollPane.setBounds(29, 117, 218, 128);
@@ -140,7 +134,7 @@ public class IdentityDetailView extends JFrame {
 		textAttributeKey.setBounds(313, 112, 160, 28);
 		contentPane.add(textAttributeKey);
 		
-		lblIdentity = new JLabel("Identity");
+		lblIdentity = new JLabel("New Identity");
 		lblIdentity.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblIdentity.setBounds(29, 6, 218, 28);
 		contentPane.add(lblIdentity);
@@ -170,27 +164,27 @@ public class IdentityDetailView extends JFrame {
 		btnDeleteAttribute.setBounds(313, 222, 117, 36);
 		contentPane.add(btnDeleteAttribute);
 		
-		btnDelete = new JButton("Delete");
-		btnDelete.addActionListener(new ActionListener() {
+		btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				deleteIdentity();
+				reset();
 			}
 		});
-		btnDelete.setBounds(262, 270, 90, 36);
-		contentPane.add(btnDelete);
+		btnReset.setBounds(141, 270, 90, 36);
+		contentPane.add(btnReset);
 		
-		btnModify = new JButton("Modify");
-		btnModify.addActionListener(new ActionListener() {
+		btnCreate = new JButton("Create");
+		btnCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				updateIdentity();
+				createIdentity();
 			}
 		});
-		btnModify.setBounds(150, 270, 90, 36);
-		contentPane.add(btnModify);
+		btnCreate.setBounds(29, 270, 90, 36);
+		contentPane.add(btnCreate);
 		
 		btnIdentities = new JButton("Identities");
 		btnIdentities.addActionListener(new BtnIdentitiesListener());
-		btnIdentities.setBounds(41, 270, 90, 36);
+		btnIdentities.setBounds(260, 270, 90, 36);
 		contentPane.add(btnIdentities);
 		
 		btnLogout = new JButton("Logout");
@@ -211,8 +205,8 @@ public class IdentityDetailView extends JFrame {
 		
 		addComponentListener(new ComponentAdapter() {
 			public void componentHidden(ComponentEvent e) {
-				currentIdentity = null;
-				listModel.clear();
+				currentIdentity = new Identity();
+				reset();
 			}
 			public void componentShown(ComponentEvent e) {
 				
@@ -220,75 +214,61 @@ public class IdentityDetailView extends JFrame {
 		});
 	}
 	
-	public void setIdentity(Identity identity) {
-		try {
-			currentIdentity = ApplicationController.getIdentityController().search(identity).get(0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		textName.setText(currentIdentity.getDisplayName());
-		textEmail.setText(currentIdentity.getEmail());
-		Map<String, String> attributes = currentIdentity.getAttributes();
-		System.out.println(currentIdentity);
-		
-		if (attributes != null) {
-			for (Map.Entry<String, String> entry: attributes.entrySet()) {
-				listModel.addElement(entry.getKey()  + ":" + entry.getValue());
-			}
-		}
-	}
-	
 	private void loadAttribute() {
 		String[] array = list.getSelectedValue().split(":");
 		textAttributeKey.setText(array[0]);
 		textAttributeValue.setText(array[1]);
 	}
-	
+
 	private void deleteAttribute() {
+		System.out.println(list.getSelectedIndex());
 		if (list.getSelectedIndex() != -1) {
 			String[] array = list.getSelectedValue().split(":");
-			currentIdentity.getAttributes().remove(array[0]);
+			attributes.remove(array[0]);
 			listModel.remove(list.getSelectedIndex());
 		}
 	}
 	
 	private void addAttribute() {
-		if (!currentIdentity.getAttributes().containsKey(textAttributeKey.getText())) {
+		if (!attributes.containsKey(textAttributeKey.getText())) {
 			listModel.addElement(textAttributeKey.getText() + ":" + textAttributeValue.getText());
 		} else {
 			listModel.set(list.getSelectedIndex(), textAttributeKey.getText() + ":" + textAttributeValue.getText());
 		}
 		
-		currentIdentity.getAttributes().put(textAttributeKey.getText(), textAttributeValue.getText());
+		attributes.put(textAttributeKey.getText(), textAttributeValue.getText());
+		textAttributeKey.setText("");
+		textAttributeValue.setText("");
 	}
 	
-	private void updateIdentity() {
-		int answer = JOptionPane.showConfirmDialog(null, "Save?", "Confirmation", NORMAL);
-		if (answer == 0) {
+	private void reset() {
+		textName.setText("");
+		textEmail.setText("");
+		textAttributeKey.setText("");
+		textAttributeValue.setText("");
+		listModel.clear();
+		attributes.clear();
+	}
+	
+	private void initIdentity() {
+		currentIdentity.setDisplayName(textName.getText());
+		currentIdentity.setEmail(textEmail.getText());
+		currentIdentity.setUid(UUID.randomUUID().toString());
+		currentIdentity.setAttributes(attributes);
+	}
+	
+	private void createIdentity() {
+		initIdentity();
+		
+		if (currentIdentity.isValid()) {
 			try {
-				if (currentIdentity.isValid()) {
-					ApplicationController.getIdentityController().update(currentIdentity);
-				} else {
-					JOptionPane.showMessageDialog(null, "Name or email is not valid");
-				}
+				ApplicationController.getIdentityController().create(currentIdentity);
+				ViewController.getInstance().showView(ViewIndex.LIST);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-	}
-	
-	private void deleteIdentity() {
-		int answer = JOptionPane.showConfirmDialog(null, "Delete?", "Confirmation", NORMAL);
-		if (answer == 0) {
-			try {
-				ApplicationController.getIdentityController().delete(currentIdentity);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			currentIdentity = null;
-			ViewController.getInstance().showView(ViewIndex.MENU);
+		} else {
+			// TODO: Display error.
 		}
 	}
 }

@@ -1,8 +1,7 @@
 package com.hf.fundamental.match.impl;
 
-import com.hf.fundamental.services.match.Matcher;
-import com.hf.funproject.util.Reflection;
 import com.hf.fundamental.datamodel.Identity;
+import com.hf.fundamental.services.match.Matcher;
 
 public class ContainsIdentityMatcher implements Matcher<Identity>{
 
