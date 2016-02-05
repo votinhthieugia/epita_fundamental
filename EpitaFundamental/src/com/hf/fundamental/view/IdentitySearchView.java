@@ -63,18 +63,17 @@ public class IdentitySearchView extends JFrame {
 	}
 
 	private void loadTable(List<Identity> resultList) {				
-		Object[][] data = new Object[resultList.size()][3];
+		Object[][] data = new Object[resultList.size()][2];
 		int i = 0;
 		for (Identity identity : resultList) {
-			data[i][0] = identity.getDisplayName();
-			data[i][1] = identity.getUid();
-			data[i][2] = identity.getEmail();	            
+			data[i][0] = identity.getDisplayName();			
+			data[i][1] = identity.getEmail();	            
 			i++;
 		}
 		table.setModel(new javax.swing.table.DefaultTableModel(
 				data,
 				new String[]{
-						"NAME", "UID", "EMAIL"
+						"NAME", "EMAIL"
 				}) {
 
 			@Override
@@ -168,7 +167,7 @@ public class IdentitySearchView extends JFrame {
 					sendObject(e);				
 			}
 
-			public Identity sendObject(ListSelectionEvent e) {
+			public Identity sendObject(ListSelectionEvent e) {				
 				int selectedRow = table.getSelectedRow();
 				Identity identity = new Identity();
 				for (int i = 0; i < table.getRowCount(); i++) {
@@ -194,8 +193,7 @@ public class IdentitySearchView extends JFrame {
 	private void searchButtonActionPerformed(ActionEvent e) {	
 		String value = textField.getText();
 		Identity criteria = new Identity();
-		Reflection.invokeSetter(criteria, fieldComboBox.getSelectedItem().toString(), value);
-		System.out.println("Criteria is "+criteria);
+		Reflection.invokeSetter(criteria, fieldComboBox.getSelectedItem().toString(), value);		
 		try {			
 			List <Identity> resultList = ApplicationController.getIdentityController().search(criteria);			
 			loadTable(resultList);
