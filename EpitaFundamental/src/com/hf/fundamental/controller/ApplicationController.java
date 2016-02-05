@@ -4,7 +4,14 @@
 
 package com.hf.fundamental.controller;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import org.jvnet.substance.SubstanceLookAndFeel;
+
 import com.hf.fundamental.dao.Storage;
+import com.hf.fundamental.view.LoginView;
+
 
 public class ApplicationController {
 	private static IdentityControllerInterface identityController;
@@ -32,6 +39,8 @@ public class ApplicationController {
 		try {
 			switch (dbType) {
 			case Storage.XML:
+				identityController = XMLIdentityController.getInstance();
+				userController = XMLUserController.getInstance();
 				break;
 			default:
 				identityController = SQLIdentityController.getInstance(dbType);
@@ -41,5 +50,10 @@ public class ApplicationController {
 		} catch (Exception e) {
 			// TODO: Do something here and display the error.
 		}
+	}
+	
+	public static void main(String[] args) {
+		ViewController main = ViewController.getInstance();
+		main.start();
 	}
 }

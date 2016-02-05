@@ -1,21 +1,23 @@
 package com.hf.fundamental.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import javax.swing.JTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import com.hf.fundamental.controller.ApplicationController;
+import com.hf.fundamental.controller.ViewController;
+import com.hf.fundamental.dao.Storage;
 
 public class LoginView extends JFrame {
 
@@ -28,7 +30,8 @@ public class LoginView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginView() {		
+	public LoginView() {
+		ViewController.getInstance().addFrame(ViewIndex.LOGIN, this);
 		initComponents();
 	}
 
@@ -112,8 +115,7 @@ public class LoginView extends JFrame {
 		System.exit(0);		
 	}
 	
-	private void acceptButtonActionPerformed(ActionEvent e) {
-		System.out.println("accept");
+	private void acceptButtonActionPerformed(ActionEvent e) {		
     	// Validates if fields are not empty
         if (userTextField.getText().equals("")){ 
             JOptionPane.showMessageDialog(null, "The must not be empty fields", "ERROR", JOptionPane.WARNING_MESSAGE);
@@ -123,10 +125,25 @@ public class LoginView extends JFrame {
             String password = String.copyValueOf(passwordTextField.getPassword());   
             // Connect through Database.
             if (rdbtnDataBase.isSelected()) {
-				
+				ApplicationController.init(Storage.DERBY);
 			}else{// Connect through XML
-				
+				ApplicationController.init(Storage.XML);
 			}
+            
+            try {
+				if( ApplicationController.getUserController().authenticate(userName, password) ){
+//					ViewController.getInstance().showView(ViewIndex.MENU);
+					System.out.println("success");
+				} else{
+					System.out.println("failure");
+					//show message
+					
+				}
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+            	
         }		        
 	}
 	
