@@ -10,4 +10,9 @@ public class XMLDAOFactory extends DAOFactory {
 	public IdentityDAO getIdentityDAO() {
 		return new XMLIdentityDAO();
 	}
+
+	@Override
+	public UserDAO getUserDAO() {
+		return null;
+	}
 }

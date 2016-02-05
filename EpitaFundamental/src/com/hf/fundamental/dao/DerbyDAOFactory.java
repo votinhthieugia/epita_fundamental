@@ -10,4 +10,9 @@ public class DerbyDAOFactory extends DAOFactory {
 	public IdentityDAO getIdentityDAO() {
 		return new DerbyIdentityDAO();
 	}
+	
+	@Override
+	public UserDAO getUserDAO() {
+		return new DerbyUserDAO();
+	}
 }

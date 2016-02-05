@@ -5,10 +5,8 @@
 package com.hf.fundamental.dao;
 
 public abstract class DAOFactory {
-	public static final int XML = 0;
-	public static final int DERBY = 1;
-	
 	public abstract IdentityDAO getIdentityDAO();
+	public abstract UserDAO getUserDAO();
 	
 	/**
 	 * A static method to get the correct DAO factory.
@@ -17,9 +15,9 @@ public abstract class DAOFactory {
 	 */
 	public static DAOFactory getDAOFactory(int type) {
 		switch (type) {
-		case XML:
+		case Storage.XML:
 			return new XMLDAOFactory();
-		case DERBY:
+		case Storage.DERBY:
 			return new DerbyDAOFactory();
 		default:
 			return null;
