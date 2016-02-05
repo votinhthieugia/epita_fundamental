@@ -78,6 +78,25 @@ public class LoginView extends JFrame {
 		passwordTextField.setBounds(124, 139, 89, 20);
 		contentPane.add(passwordTextField);
 		
+		passwordTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	passwordTextFieldActionPerformed(evt);
+            }
+
+			private void passwordTextFieldActionPerformed(ActionEvent evt) {				
+				login();
+			}
+        });
+		
+		userTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	userTextFieldActionPerformed(evt);
+            }
+
+			private void userTextFieldActionPerformed(ActionEvent evt) {				
+				passwordTextField.requestFocus();
+			}
+        });
 		JButton acceptButton = new JButton("Accept");
 		acceptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -120,7 +139,11 @@ public class LoginView extends JFrame {
 	}
 	
 	private void acceptButtonActionPerformed(ActionEvent e) {		
-    	// Validates if fields are not empty
+    	login();		        
+	}
+
+	private void login() {
+		// Validates if fields are not empty
         if (userTextField.getText().equals("")){ 
             JOptionPane.showMessageDialog(null, "The must not be empty fields", "ERROR", JOptionPane.WARNING_MESSAGE);
             clearFields();
@@ -147,7 +170,7 @@ public class LoginView extends JFrame {
 				
 				e1.printStackTrace();
 			}            	
-        }		        
+        }
 	}
 	
 	private void clearFields() {
