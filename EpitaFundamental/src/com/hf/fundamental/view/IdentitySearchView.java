@@ -16,10 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.hf.fundamental.controller.ApplicationController;
 import com.hf.fundamental.controller.ViewController;
 import com.hf.fundamental.datamodel.Identity;
+import com.hf.fundamental.view.listeners.BtnLogoutListener;
 import com.hf.funproject.util.Reflection;
 
 public class IdentitySearchView extends JFrame {
@@ -46,6 +49,7 @@ public class IdentitySearchView extends JFrame {
 			loadTable((ArrayList<Identity>) ApplicationController.getIdentityController().listAll());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error ocurred with datasource");
+			System.out.println(e.toString());
 		}
 	}
 
@@ -140,8 +144,47 @@ public class IdentitySearchView extends JFrame {
 		contentPane.add(backButton);
 		
 		JButton LogOutButton = new JButton("Log Out");
+		LogOutButton.addActionListener(new BtnLogoutListener());
 		LogOutButton.setBounds(666, 317, 89, 33);
 		contentPane.add(LogOutButton);
+		
+		JButton btnShowAll = new JButton("Show All");
+		btnShowAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {			
+					loadTable((ArrayList<Identity>) ApplicationController.getIdentityController().listAll());
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Error ocurred with datasource");
+				}
+			}
+		});
+		btnShowAll.setBounds(46, 322, 89, 23);
+		contentPane.add(btnShowAll);
+		
+		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {				
+					sendObject(e);				
+			}
+
+			public Identity sendObject(ListSelectionEvent e) {
+				int selectedRow = table.getSelectedRow();
+				Identity identity = new Identity();
+				for (int i = 0; i < table.getRowCount(); i++) {
+					for (int j = 0; j < table.getColumnCount(); j++) {
+						if (i == selectedRow) {
+							identity.setDisplayName( (String) table.getValueAt(i, 0));
+							identity.setUid(( (String) table.getValueAt(i, 1)) );
+							identity.setEmail(( (String) table.getValueAt(i, 2)) );
+							break;
+						}
+					}
+				}
+				System.out.println(identity);
+				return identity;
+			}
+		});
 	}
 	
 	private void backButtonActionPerformed() {
@@ -152,11 +195,13 @@ public class IdentitySearchView extends JFrame {
 		String value = textField.getText();
 		Identity criteria = new Identity();
 		Reflection.invokeSetter(criteria, fieldComboBox.getSelectedItem().toString(), value);
-		try {
-			List <Identity> resultList = ApplicationController.getIdentityController().search(criteria);
+		System.out.println("Criteria is "+criteria);
+		try {			
+			List <Identity> resultList = ApplicationController.getIdentityController().search(criteria);			
 			loadTable(resultList);
 		} catch (Exception e1) {
 			JOptionPane.showMessageDialog(null, "Error loading data source");
+			e1.printStackTrace();
 		}
 	}
 }

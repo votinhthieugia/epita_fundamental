@@ -23,6 +23,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.hf.fundamental.datamodel.Identity;
+import com.hf.fundamental.match.impl.ContainsIdentityMatcher;
 import com.hf.fundamental.match.impl.EqualsIdentityMatcher;
 import com.hf.fundamental.match.impl.UidIdentityMatcher;
 import com.hf.fundamental.services.match.Matcher;
@@ -42,6 +43,8 @@ public class XMLIdentityDAO implements IdentityDAO{
 	// Matchers used to compare identities according criteria.
 	private Matcher<Identity> activeMatchingStrategy = new EqualsIdentityMatcher();
 	private Matcher<Identity> activeMatchingStrategyUid = new UidIdentityMatcher();
+	private Matcher<Identity> activeMatchingStrategyContain = new ContainsIdentityMatcher();
+	
 
 	public XMLIdentityDAO(){
 		try {
@@ -166,15 +169,15 @@ public class XMLIdentityDAO implements IdentityDAO{
 	 * @return resultList
 	 */
 	@Override
-	public List<Identity> search(Identity criteria) {
+	public List<Identity> search(Identity criteria) {			
 		List<Identity> resultList = new ArrayList<Identity>();
 		List<Identity> identitiesList = readAll();			
-		for (Identity identity : identitiesList) {
-			if (activeMatchingStrategyUid.match(criteria, identity)){
-				// it is matching, add the found identity in the resultList.
+		for (Identity identity : identitiesList) {			
+			if (activeMatchingStrategyContain.match(criteria, identity)){
+				// it is matching, add the found identity in the resultList.				
 				resultList.add(identity);
 			}
-		}
+		}		
 		return resultList;
 	}
 

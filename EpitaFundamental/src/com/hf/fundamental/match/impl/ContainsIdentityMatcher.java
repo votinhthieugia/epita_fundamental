@@ -8,7 +8,9 @@ public class ContainsIdentityMatcher implements Matcher<Identity>{
 	@Override
 	public boolean match(Identity criteria, Identity toBeMatched) {
 		return (criteria.getDisplayName().contains(toBeMatched.getDisplayName())
-				|| criteria.getEmail().contains(toBeMatched.getEmail()))? true: false;		
+				|| criteria.getEmail().contains(toBeMatched.getEmail())
+				|| criteria.getUid().contains(toBeMatched.getUid())
+				)? true: false;		
 	}
 
 }

@@ -136,8 +136,8 @@ public class LoginView extends JFrame {
             
             try {
 				if( ApplicationController.getUserController().authenticate(userName, password) ){
-					ViewController.getInstance().showView(ViewIndex.LIST);
-					System.out.println("success");
+					ViewController.getInstance().showView(ViewIndex.MENU);
+					
 				} else {
 					System.out.println("failure");
 					JOptionPane.showMessageDialog(null, "User or password incorrect");

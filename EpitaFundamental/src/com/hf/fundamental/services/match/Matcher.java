@@ -6,7 +6,7 @@ package com.hf.fundamental.services.match;
  *
  * @param <T> any type
  */
-public interface Matcher<Object> {
+public interface Matcher<T> {
 
 	/**
 	 * 
@@ -14,6 +14,6 @@ public interface Matcher<Object> {
 	 * @param toBeMatched
 	 * @return true if the criteria matches the toBeMatched instance
 	 */
-	public boolean match(Object criteria, Object toBeMatched);
+	public boolean match(T criteria, T toBeMatched);
 
 }

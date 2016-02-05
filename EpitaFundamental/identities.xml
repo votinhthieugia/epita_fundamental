@@ -7,4 +7,17 @@
     <property name="address">3 Av. Robespierre</property>
     <property name="Telephone">2420492</property>
   </identity>
+  <identity>
+    <property name="displayName">Jai</property>
+    <property name="uid">123</property>
+    <property name="email">jai@hotmail.com</property>
+    <property name="address">Vitry sur Seine</property>
+    <property name="Telephone">456798</property>
+  </identity>
+  <identity>
+    <property name="displayName">Peter</property>
+    <property name="uid">456</property>
+    <property name="email">peter@gmail.com</property>
+    <property name="address">Paris</property>    
+  </identity>
 </identities>

@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 import org.jvnet.substance.SubstanceLookAndFeel;
 
 import com.hf.fundamental.view.IdentityDetailView;
+import com.hf.fundamental.view.IdentitySearchView;
 import com.hf.fundamental.view.LoginView;
 import com.hf.fundamental.view.MenuView;
 import com.hf.fundamental.view.ViewIndex;
@@ -19,9 +20,9 @@ public class ViewController {
 	private static Map<Integer ,JFrame> listFrames = new HashMap<Integer, JFrame>();		
 	private static ViewController instance;
 	private static JFrame currentView;
-	
-	
-	
+
+
+
 	/**
 	 * @return the currentView
 	 */
@@ -37,24 +38,24 @@ public class ViewController {
 	}
 
 	private ViewController(){
-		
+
 	}
-	
+
 	public void addFrame(int index, JFrame frame) {
 		listFrames.put(index, frame);
 	}
-	
+
 	public JFrame getFrame(int index){		
 		return listFrames.get(index);		
 	}
-	
+
 	public static ViewController getInstance(){
 		if (instance == null) {
 			instance = new ViewController();
 		}
 		return instance;
 	}
-		
+
 	public void start() {
 		SwingUtilities.invokeLater(new Runnable() {			      
 			@Override
@@ -63,7 +64,7 @@ public class ViewController {
 			}		
 		});		
 	}
-	
+
 	public void showView(int index){
 		if (getCurrentView() != null) {
 			getCurrentView().setVisible(false);			
@@ -71,32 +72,43 @@ public class ViewController {
 		switch (index) {
 		case ViewIndex.LOGIN:
 			JFrame nextView = listFrames.get(index);
-			
+
 			if (nextView == null) {
 				nextView = new LoginView();
 			}
-			
+
+			nextView.setVisible(true);
+			setCurrentView(nextView);
+			break;
+		case ViewIndex.LIST:
+			nextView = listFrames.get(index);
+
+			if (nextView == null) {
+				nextView = new IdentitySearchView();
+			}
+
+			System.out.println(nextView.toString());
 			nextView.setVisible(true);
 			setCurrentView(nextView);
 			break;
 		case ViewIndex.MENU:
 			nextView = listFrames.get(index);
-			
+
 			if (nextView == null) {
 				nextView = new MenuView();
 			}
-			
+
 			System.out.println(nextView.toString());
 			nextView.setVisible(true);
 			setCurrentView(nextView);
 			break;
 		case ViewIndex.DETAIL:
 			nextView = listFrames.get(index);
-			
+
 			if (nextView == null) {
 				nextView = new IdentityDetailView();
 			}
-			
+
 			System.out.println(nextView.toString());
 			nextView.setVisible(true);
 			setCurrentView(nextView);
@@ -105,8 +117,8 @@ public class ViewController {
 			break;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Sets the Theme to the frames
 	 */
