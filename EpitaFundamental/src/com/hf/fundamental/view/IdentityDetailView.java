@@ -2,6 +2,8 @@ package com.hf.fundamental.view;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,21 +12,20 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.hf.fundamental.controller.ApplicationController;
 import com.hf.fundamental.controller.ViewController;
 import com.hf.fundamental.datamodel.Identity;
 import com.hf.fundamental.view.listeners.BtnIdentitiesListener;
 import com.hf.fundamental.view.listeners.BtnLogoutListener;
-
-import javax.swing.ListSelectionModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class IdentityDetailView extends JFrame {
 
@@ -163,6 +164,7 @@ public class IdentityDetailView extends JFrame {
 		btnDelete = new JButton("Delete");
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				deleteIdentity();
 			}
 		});
 		btnDelete.setBounds(262, 270, 90, 36);
@@ -171,6 +173,7 @@ public class IdentityDetailView extends JFrame {
 		btnModify = new JButton("Modify");
 		btnModify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				updateIdentity();
 			}
 		});
 		btnModify.setBounds(150, 270, 90, 36);
@@ -183,7 +186,7 @@ public class IdentityDetailView extends JFrame {
 		
 		btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new BtnLogoutListener());
-		btnLogout.setBounds(380, 270, 90, 36);
+		btnLogout.setBounds(377, 270, 90, 36);
 		contentPane.add(btnLogout);
 		
 		listModel = new DefaultListModel<String>();
@@ -215,10 +218,43 @@ public class IdentityDetailView extends JFrame {
 	}
 	
 	private void deleteAttribute() {
-		System.out.println("delete " + list.getSelectedIndex() + " " + list.getSelectedValue());
+		String[] array = list.getSelectedValue().split(":");
+		currentIdentity.getAttributes().remove(array[0]);
+		listModel.remove(list.getSelectedIndex());
 	}
 	
 	private void addAttribute() {
-		System.out.println("add " + textAttributeKey.getText() + ":" + textAttributeValue.getText());
+		if (!currentIdentity.getAttributes().containsKey(textAttributeKey.getText())) {
+			listModel.addElement(textAttributeKey.getText() + ":" + textAttributeValue.getText());
+		} else {
+			listModel.set(list.getSelectedIndex(), textAttributeKey.getText() + ":" + textAttributeValue.getText());
+		}
+		
+		currentIdentity.getAttributes().put(textAttributeKey.getText(), textAttributeValue.getText());
+	}
+	
+	private void updateIdentity() {
+		int answer = JOptionPane.showConfirmDialog(null, "Save?", "Confirmation", NORMAL);
+		if (answer == 0) {
+			try {
+				ApplicationController.getIdentityController().update(currentIdentity);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void deleteIdentity() {
+		int answer = JOptionPane.showConfirmDialog(null, "Delete?", "Confirmation", NORMAL);
+		if (answer == 0) {
+			try {
+				ApplicationController.getIdentityController().delete(currentIdentity);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			currentIdentity = null;
+			ViewController.getInstance().showView(ViewIndex.MENU);
+		}
 	}
 }
