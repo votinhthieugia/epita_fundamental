@@ -19,7 +19,7 @@ public class SQLUserDAO extends SqlDAO implements UserDAO {
 	 */
 	@Override
 	public boolean authenticate(String userName, String password) throws Exception {
-		String query = "select count(*) as n from identities where displayName = ? and password = ? limit 1";
+		String query = "select count(*) as n from identities where displayName = ? and password = ?";
 		boolean hasFound = false;
 		
 		try (PreparedStatement statement = connection.prepareStatement(query)) {

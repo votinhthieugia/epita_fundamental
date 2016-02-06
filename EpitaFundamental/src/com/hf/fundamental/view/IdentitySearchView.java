@@ -25,8 +25,8 @@ import javax.swing.event.ListSelectionListener;
 import com.hf.fundamental.controller.ApplicationController;
 import com.hf.fundamental.controller.ViewController;
 import com.hf.fundamental.datamodel.Identity;
+import com.hf.fundamental.util.Reflection;
 import com.hf.fundamental.view.listeners.BtnLogoutListener;
-import com.hf.funproject.util.Reflection;
 
 /**
  * The {@code IdentitySearchView} JFrame displays the <i>GUI</i> that contains the components for 

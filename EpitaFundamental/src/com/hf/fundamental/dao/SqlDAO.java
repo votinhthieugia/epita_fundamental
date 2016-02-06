@@ -44,24 +44,27 @@ public class SqlDAO {
 	 * Read the configurations from a properties file.
 	 */
 	protected void configure() {
-		settings = new Properties();
-		InputStream input = null;
+//		settings = new Properties();
+//		InputStream input = null;
 		
-		try {
-			input = new FileInputStream("config.properties");
-			settings.load(input);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+////			input = new FileInputStream("config.properties");
+////			settings.load(input);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	/**
 	 * Get the jdbc connection from driver manager.
 	 */
 	protected Connection getConnection() throws ClassNotFoundException, SQLException, IOException {
-		return DriverManager.getConnection(settings.getProperty("connectionString"), 
-										   settings.getProperty("username"), 
-										   settings.getProperty("password"));
+//		return DriverManager.getConnection(settings.getProperty("connectionString"), 
+//										   settings.getProperty("username"), 
+//										   settings.getProperty("password"));
+		return DriverManager.getConnection("jdbc:derby://localhost:1527/fundamental;create=true","user" 
+				   ,"user" 
+				   );
 	}
 	
 	/**
