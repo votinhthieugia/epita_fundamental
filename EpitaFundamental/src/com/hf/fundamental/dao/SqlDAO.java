@@ -4,53 +4,65 @@
 
 package com.hf.fundamental.dao;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class SqlDAO {
 	// The jdbc connection.
 	protected Connection connection;
-	
-	// The properties configuration file.
-	protected Properties settings;
 	
 	public SqlDAO() {
 		configure();
 		
 		try {
 			connection = getConnection();
+			System.out.println(connection);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			e.printStackTrace();
 		}
+		
+		postConfigure();
 	}
 	
 	/**
-	 * Read the configurations from a properties file.
+	 * Implement some data configuration.
 	 */
 	protected void configure() {
-		settings = new Properties();
-		InputStream input = null;
-		
-		try {
-			input = new FileInputStream("config.properties");
-			settings.load(input);
-		} catch (Exception e) {
-			e.printStackTrace();
+	}
+	
+	/**
+	 * Do something after configuring and get the connection.
+	 */
+	protected void postConfigure() {
+	}
+	
+	/**
+	 * Create the connection string.
+	 */
+	protected String getConnectionString() {
+		String connectionString = "";
+		switch (DataConfiguration.getAdapter().toLowerCase()) {
+		case "derby":
+			connectionString = "jdbc:derby://localhost:1527/" + DataConfiguration.getDBName() + ";create=true";
+			break;
+		case "mysql":
+			connectionString = "jdbc:mysql://localhost:3306/" + DataConfiguration.getDBName() + ";create=true";
+			break;
+		default:
+			break;
 		}
+		return connectionString;
 	}
 	
 	/**
 	 * Get the jdbc connection from driver manager.
 	 */
 	protected Connection getConnection() throws ClassNotFoundException, SQLException, IOException {
-		return DriverManager.getConnection(settings.getProperty("connectionString"), 
-										   settings.getProperty("username"), 
-										   settings.getProperty("password"));
+		return DriverManager.getConnection(getConnectionString(),
+										   DataConfiguration.getDBUsername(), 
+										   DataConfiguration.getDBPassword());
 	}
 	
 	/**

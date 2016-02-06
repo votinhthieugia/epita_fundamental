@@ -4,6 +4,7 @@
 
 package com.hf.fundamental.controller;
 
+import com.hf.fundamental.dao.DataConfiguration;
 import com.hf.fundamental.dao.Storage;
 
 
@@ -30,6 +31,12 @@ public class ApplicationController {
 	 * @param: dbType 
 	 */
 	public static void init(int dbType) {
+		try {
+			DataConfiguration.load();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		try {
 			switch (dbType) {
 			case Storage.XML:

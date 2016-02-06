@@ -33,19 +33,22 @@ public class Identity {
 		this.displayName = displayName;
 		this.uid = uid;
 		this.email = email;
+		
 		Map<String, String> attributes = new HashMap<String, String>();
 		
-		try {
-			JSONObject attributesJson = new JSONObject(attributesString);
-			@SuppressWarnings("unchecked")
-			Iterator<String> keys = attributesJson.keys();
-			
-			while (keys.hasNext()) {
-				String key = keys.next();
-				attributes.put(key, attributesJson.getString(key));
+		if (attributesString != null) {
+			try {
+				JSONObject attributesJson = new JSONObject(attributesString);
+				@SuppressWarnings("unchecked")
+				Iterator<String> keys = attributesJson.keys();
+				
+				while (keys.hasNext()) {
+					String key = keys.next();
+					attributes.put(key, attributesJson.getString(key));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
 		this.attributes = attributes;

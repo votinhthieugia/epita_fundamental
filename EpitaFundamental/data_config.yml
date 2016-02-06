@@ -1,0 +1,8 @@
+admin:
+    name: admin
+    password: password
+database:
+    adapter: derby
+    dbname: iamdb
+    username: user
+    password: user

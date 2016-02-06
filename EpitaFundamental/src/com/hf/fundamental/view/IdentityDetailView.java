@@ -267,7 +267,11 @@ public class IdentityDetailView extends JFrame {
 		int answer = JOptionPane.showConfirmDialog(null, "Save?", "Confirmation", NORMAL);
 		if (answer == 0) {
 			try {
+				currentIdentity.setDisplayName(textName.getText());
+				currentIdentity.setEmail(textEmail.getText());
+				
 				if (currentIdentity.isValid()) {
+					System.out.println(currentIdentity);
 					ApplicationController.getIdentityController().update(currentIdentity);
 				} else {
 					JOptionPane.showMessageDialog(null, "Name or email is not valid");
