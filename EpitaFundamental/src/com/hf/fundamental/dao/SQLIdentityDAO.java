@@ -12,10 +12,19 @@ import java.util.List;
 
 import com.hf.fundamental.datamodel.Identity;
 
+/**
+ * The {@code SQLIdentityDAO} class has the {@link Identity } <i>CRUD</i> methods implementation for databases.
+ * <p>
+ * @author Hoang / Favio
+ *
+ */
 public class SQLIdentityDAO extends SqlDAO implements IdentityDAO {
-	
+		
 	/**
-	 * Create identity from database row. 
+	 * Create identity from database row
+	 * @param resultSet table of data
+	 * @return new {@link Identity}
+	 * @throws SQLException
 	 */
 	private Identity createFromRow(ResultSet resultSet) throws SQLException {
 		String displayName = resultSet.getString("displayName");
@@ -25,6 +34,9 @@ public class SQLIdentityDAO extends SqlDAO implements IdentityDAO {
 		return new Identity(displayName, uid, email, attributesString);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */	
 	@Override
 	public void create(Identity identity) throws Exception {
 		String query = "insert into identities(displayName, uid, email, attributes) values (?, ?, ?, ?)";
@@ -40,6 +52,9 @@ public class SQLIdentityDAO extends SqlDAO implements IdentityDAO {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Identity> readAll() throws Exception {
 		ArrayList<Identity> list = new ArrayList<Identity>();
@@ -59,6 +74,9 @@ public class SQLIdentityDAO extends SqlDAO implements IdentityDAO {
 		return list;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Identity> search(Identity identity) throws Exception {
 		ArrayList<Identity> list = new ArrayList<Identity>();
@@ -81,6 +99,9 @@ public class SQLIdentityDAO extends SqlDAO implements IdentityDAO {
 		return list;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void modify(Identity identity) throws Exception {
 		String query = "update identities set displayName = ?, email = ?, attributes = ? where uid = ?";
@@ -96,6 +117,9 @@ public class SQLIdentityDAO extends SqlDAO implements IdentityDAO {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void delete(Identity identity) throws Exception {
 		String query = "delete from identities where uid = ?";

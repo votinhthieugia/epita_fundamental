@@ -1,3 +1,6 @@
+/**
+ * ViewController.java
+ */
 package com.hf.fundamental.controller;
 
 import java.util.HashMap;
@@ -16,14 +19,18 @@ import com.hf.fundamental.view.LoginView;
 import com.hf.fundamental.view.MenuView;
 import com.hf.fundamental.view.ViewIndex;
 
+/**
+ * The {@code ViewController} class sets a map containing the instances of the <i>Views </i>, then it controls
+ * whenever a View may be close and reopens it when required
+ * @author Favio
+ *
+ */
 public class ViewController {
 
 	// Map that stores the instances of all the views
 	private static Map<Integer ,JFrame> listFrames = new HashMap<Integer, JFrame>();		
 	private static ViewController instance;
 	private static JFrame currentView;
-
-
 
 	/**
 	 * @return the currentView
@@ -43,14 +50,28 @@ public class ViewController {
 
 	}
 
+	/**
+	 * Add JFrame to the listFrames Map
+	 * @param type of view
+	 * @param jFrame
+	 */
 	public void addFrame(int index, JFrame frame) {
 		listFrames.put(index, frame);
 	}
 
+	/**
+	 * Return the instance of the JFrame, given a View type
+	 * @param ViewIndex
+	 * @return JFrame
+	 */
 	public JFrame getFrame(int index){		
 		return listFrames.get(index);		
 	}
 
+	/**
+	 * 
+	 * @return instance of the ViewController
+	 */
 	public static ViewController getInstance(){
 		if (instance == null) {
 			instance = new ViewController();
@@ -58,6 +79,9 @@ public class ViewController {
 		return instance;
 	}
 
+	/**
+	 * The method {@code start()} implements the <i>Runnable </i> interface to invoke {@code RunApp()} method
+	 */
 	public void start() {
 		SwingUtilities.invokeLater(new Runnable() {			      
 			@Override
@@ -67,10 +91,19 @@ public class ViewController {
 		});		
 	}
 
+	/**
+	 * The method {@code showView()} displays a View given a {@link ViewIndex} 
+	 * @param ViewIndex
+	 */
 	public void showView(int index) {
 		showView(index, null);
 	}
 	
+	/**
+	 * Method overloading of {@code showView(int)}
+	 * @param index
+	 * @param data
+	 */
 	public void showView(int index, Object data) {
 		if (getCurrentView() != null) {
 			getCurrentView().setVisible(false);			
@@ -141,6 +174,9 @@ public class ViewController {
 	/**
 	 * Sets the Theme to the frames
 	 */
+	/**
+	 * The method {@code runApp} sets the theme to all the {@link JFrame} Views
+	 */
 	private void runApp() {
 		JFrame.setDefaultLookAndFeelDecorated(true);                   
 		SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.ChallengerDeepSkin");
@@ -153,5 +189,4 @@ public class ViewController {
 			e.printStackTrace();
 		}
 	}
-
 }

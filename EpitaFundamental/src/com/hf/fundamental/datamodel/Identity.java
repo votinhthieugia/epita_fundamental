@@ -10,6 +10,12 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+/**
+ * The {@code Identity} class defines the fields and methods based on the requirements
+ * 
+ * @author Hoang / Favio
+ *
+ */
 public class Identity {
 	
 	String 			   displayName;
@@ -108,7 +114,7 @@ public class Identity {
 	}
 	
 	/**
-	 * @return attributes string in json string format.
+	 * @return attributes <b>string in json string format</b>.
 	 */
 	public String getAttributesString() {
 		JSONObject json = new JSONObject();

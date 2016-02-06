@@ -7,8 +7,16 @@ package com.hf.fundamental.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * The {@code SQLUserDAO} class has the {@link User } <i> CRUD</i> methods implementation for databases.
+ * @author Hoang / Favio
+ *
+ */
 public class SQLUserDAO extends SqlDAO implements UserDAO {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean authenticate(String userName, String password) throws Exception {
 		String query = "select count(*) as n from identities where displayName = ? and password = ? limit 1";

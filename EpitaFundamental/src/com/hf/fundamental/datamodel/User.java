@@ -4,6 +4,11 @@
 
 package com.hf.fundamental.datamodel;
 
+/**
+ * The {@code User} is used to differentiate those <i>identities</i> who have privileges to access the application  
+ * @author Hoang / Favio
+ *
+ */
 public class User extends Identity {
 	
 	String password;

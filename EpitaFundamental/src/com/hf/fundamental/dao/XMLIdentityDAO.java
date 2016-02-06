@@ -1,3 +1,6 @@
+/**
+ * XMLIdentityDAO.java
+ */
 package com.hf.fundamental.dao;
 
 import java.io.File;
@@ -30,10 +33,11 @@ import com.hf.fundamental.services.match.Matcher;
 import com.hf.fundamental.util.Reflection;
 
 /**
- * Class XMLIdentityDAO
- * Implements IdentityDAOInterface
- * @author Favio
- * @version 1.0
+ * The {@code XMLIdentityDAO} class implements the Identity object CRUD methods for {@link com.hf.fundamental.datamodel.Identity}.
+ * <p>
+ * Uses Matcher implementations {@link com.hf.fundamental.match.impl}.
+ *
+ * @author Hoang / Favio
  */
 public class XMLIdentityDAO implements IdentityDAO{
 
@@ -46,6 +50,10 @@ public class XMLIdentityDAO implements IdentityDAO{
 	private Matcher<Identity> activeMatchingStrategyContain = new ContainsIdentityMatcher();
 	
 
+	/**
+	 * By invoking the constructor, it will look for the file stored previously and then <b>parse</b> it to 
+	 * a DOM format
+	 */
 	public XMLIdentityDAO(){
 		try {
 			// Parse the XML into DOM standard.
@@ -56,13 +64,15 @@ public class XMLIdentityDAO implements IdentityDAO{
 			System.out.println(e);
 		}
 	}
-
-	/* Implemented method */
+	
 
 	/**
-	 * Appends one identity Object into XML File.
-	 * @throws Exception 
-	 * 
+	 * Append one {@link Identity} into XML File.	
+	 * 			
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerConfigurationException
+	 * @throws TransformerException
+	 * 			An Exception can be thrown when writing the document
 	 */
 	@Override
 	public void create(Identity identity) throws Exception {
@@ -76,8 +86,7 @@ public class XMLIdentityDAO implements IdentityDAO{
 	}
 
 	/**
-	 * Writes an element into XML file.
-	 * @param newIdentity
+	 * Writes an element into XML file.	
 	 * @throws TransformerFactoryConfigurationError
 	 * @throws TransformerConfigurationException
 	 * @throws TransformerException
@@ -93,13 +102,12 @@ public class XMLIdentityDAO implements IdentityDAO{
 		DOMSource source = new DOMSource(document);		    
 		StreamResult result = new StreamResult(new File("identities.xml"));		
 		transformer.transform(source, result);
-//		document.normalize();
 	}
 
 	/**
-	 * Uses Reflection to traverse through the Identity attributes and append each one to the node.
-	 * @param newIdentity 
-	 * @param identity
+	 * Use Reflection to traverse through the Identity attributes and append each one to the node.
+	 * @param newIdentity root of the DOM
+	 * @param identity instance of Identity
 	 */
 	private Element appendIdentity(Element newIdentity, Identity identity) {		
 		// Obtain the list of attributes contained in identity.
@@ -122,10 +130,11 @@ public class XMLIdentityDAO implements IdentityDAO{
 	}
 
 	/**
-	 * Appends a new tag <property> into the newIdentity Element, given an attribute (name and value).
-	 * @param newIdentity
-	 * @param nameField
-	 * @param valueField
+	 * Append a new tag <property> into the newIdentity Element, given an <i>attribute (name and value).</i>
+	 * <p>
+	 * @param newIdentity root of the DOM
+	 * @param nameField name of the property <property name = nameField>
+	 * @param valueField value of a given name of property <property name = nameField>valueField</property>
 	 */
 	private void appendField(Element newIdentity, String nameField, String valueField) {
 		Element element = document.createElement("property");
@@ -152,7 +161,7 @@ public class XMLIdentityDAO implements IdentityDAO{
 				Element property = (Element) properties.item(j);
 				String attribute = property.getAttribute("name");
 				String value = property.getTextContent().trim();				
-				if(j <= 2){ //because it traverses through the first 3 fields until it reaches the Map with additional fields
+				if(j <= 2){ //Because it traverses through the first 3 fields until it reaches the Map with additional fields.
 					Reflection.invokeSetter(identityInstance, attribute, value);
 				} else {// Map					
 					attributes.put(attribute, value);
@@ -165,7 +174,7 @@ public class XMLIdentityDAO implements IdentityDAO{
 	}
 
 	/**
-	 * Searchs one Identity and returns it into a List<Identity>.
+	 * Search one {@link Identity} and returns it into a List<Identity>.
 	 * @return resultList
 	 */
 	@Override
@@ -174,7 +183,7 @@ public class XMLIdentityDAO implements IdentityDAO{
 		List<Identity> identitiesList = readAll();			
 		for (Identity identity : identitiesList) {			
 			if (activeMatchingStrategyContain.match(criteria, identity)){
-				// it is matching, add the found identity in the resultList.				
+				// If it is has matched, then add the found identity to the resultList.				
 				resultList.add(identity);
 			}
 		}		
@@ -182,11 +191,11 @@ public class XMLIdentityDAO implements IdentityDAO{
 	}
 
 	/**
-	 * Modifies one Identity given its unique uid and updates it into the XML file.
+	 * Modify one Identity given its </i>unique uid and updates it into the XML file.
 	 */
 	@Override
 	public void modify(Identity criteria) throws Exception{		
-		//if the criteria (with unique uid) was found in the xml then delete old, and create one with updated values 
+		//If the criteria (with unique uid) was found in the xml then delete old, and create one with updated values.
 		if(!search(criteria).isEmpty()){			
 			delete(criteria);
 			create(criteria);

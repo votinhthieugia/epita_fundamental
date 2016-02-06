@@ -1,25 +1,30 @@
 /**
- * ApplicationController.java
+ * AplicationController.java
  */
-
 package com.hf.fundamental.controller;
 
 import com.hf.fundamental.dao.Storage;
 
-
+/**
+ * The {@code ApplicationController} class links the <i>View Layer </i>with the <i>Implementation layer</i>.
+ * @author Hoang / Favio
+ *
+ */
 public class ApplicationController {
 	private static IdentityControllerInterface identityController;
 	private static UserControllerInterface userController;
 
 	/**
-	 * Get the identity controller instance.
+	 * Get the <i>Identity Controller</i> instance.
+	 * @return a new IdentityControllerInterface
 	 */
 	public static IdentityControllerInterface getIdentityController() {
 		return identityController;
 	}
 
 	/**
-	 * Get the user controller instance. 
+	 * Get the <i>User Controller</i> instance.
+	 * @return UserControllerInterface
 	 */
 	public static UserControllerInterface getUserController() {
 		return userController;
@@ -27,7 +32,7 @@ public class ApplicationController {
 	
 	/**
 	 * Initialize application.
-	 * @param: dbType 
+	 * @param: dbType mode of storage, 1. XML 2. Derby
 	 */
 	public static void init(int dbType) {
 		try {
@@ -46,6 +51,10 @@ public class ApplicationController {
 		}
 	}
 	
+	/**
+	 * Main method of the application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		ViewController main = ViewController.getInstance();
 		main.start();
