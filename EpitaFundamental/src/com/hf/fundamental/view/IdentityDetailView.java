@@ -62,6 +62,11 @@ public class IdentityDetailView extends JFrame {
 	private JScrollPane scrollPane;
 	private DefaultListModel<String> listModel;
 	private Identity currentIdentity;
+	
+	public IdentityDetailView() {		
+		ViewController.getInstance().addFrame(ViewIndex.DETAIL, this);
+		initComponents();
+	}
 
 	/**
 	 * Initialize Swing Components

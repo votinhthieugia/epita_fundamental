@@ -105,6 +105,7 @@ public class ViewController {
 	 * @param data
 	 */
 	public void showView(int index, Object data) {
+		System.out.println("ShowView");
 		if (getCurrentView() != null) {
 			getCurrentView().setVisible(false);			
 		}		
@@ -137,7 +138,6 @@ public class ViewController {
 				nextView = new MenuView();
 			}
 
-			System.out.println(nextView.toString());
 			nextView.setVisible(true);
 			setCurrentView(nextView);
 			break;
@@ -147,13 +147,15 @@ public class ViewController {
 			if (nextView == null) {
 				nextView = new IdentityDetailView();
 			}
+			System.out.println(nextView.toString());			
 
-			nextView.setVisible(true);
 			setCurrentView(nextView);
 			
 			if (data != null) {
 				((IdentityDetailView)nextView).setIdentity((Identity)data);
 			}
+			
+			nextView.setVisible(true);
 			break;
 		case ViewIndex.CREATE:
 			nextView = listFrames.get(index);
