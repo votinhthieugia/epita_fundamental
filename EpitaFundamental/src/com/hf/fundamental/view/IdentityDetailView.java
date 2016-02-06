@@ -1,3 +1,6 @@
+/**
+ * IdentityDetailView.java
+ */
 package com.hf.fundamental.view;
 
 import java.awt.EventQueue;
@@ -29,12 +32,18 @@ import com.hf.fundamental.datamodel.Identity;
 import com.hf.fundamental.view.listeners.BtnIdentitiesListener;
 import com.hf.fundamental.view.listeners.BtnLogoutListener;
 
+/**
+ * The {@code IdentityDetailView} JFrame displays the <i>GUI</i> that contains the components for 
+ * filling {@link Identity}'s fields and modifying them
+ * @author Hoang / Favio
+ *
+ */
 public class IdentityDetailView extends JFrame {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
+	/**
+	 * Swing Component declaration
+	 */
 	private JPanel contentPane;
 	private JTextField textName;
 	private JTextField textEmail;
@@ -55,37 +64,8 @@ public class IdentityDetailView extends JFrame {
 	private Identity currentIdentity;
 
 	/**
-	 * Launch the application.
+	 * Initialize Swing Components
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					IdentityDetailView frame = new IdentityDetailView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public IdentityDetailView() {
-		ViewController.getInstance().addFrame(ViewIndex.DETAIL, this);
-		initComponents();
-	}
-
-	private Identity createFakeIdentity() {
-		Map<String, String> attributes = new HashMap<String, String>();
-		attributes.put("age", "10");
-		attributes.put("son", "mon");
-		Identity identity = new Identity("hoang", "uid", "email@gmail.com", attributes);
-		return identity;
-	}
-	
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 350);
@@ -239,6 +219,10 @@ public class IdentityDetailView extends JFrame {
 		}
 	}
 	
+	/**
+	 *Action Listener Methods
+	 */
+	
 	private void loadAttribute() {
 		String[] array = list.getSelectedValue().split(":");
 		textAttributeKey.setText(array[0]);
@@ -290,7 +274,6 @@ public class IdentityDetailView extends JFrame {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 			currentIdentity = null;
 			ViewController.getInstance().showView(ViewIndex.MENU);
 		}

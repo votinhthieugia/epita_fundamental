@@ -9,11 +9,21 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+/**
+ * The {@code XMLUserDAO} class implements the User authenticate method for {@link User}.
+ * 
+ * @author Hoang / Favio
+ *
+ */
 public class XMLUserDAO implements UserDAO{
 	
 	// Root of the XML.
 	Document document;
 	
+	/**
+	 * When invoked, it is assumed that the file 'users.xml' <b>must have been created</b> and <b>inserted</b> a user with
+	 * his password.
+	 */
 	public XMLUserDAO() {
 		try {
 			// Parse the XML into DOM standard.
@@ -24,9 +34,10 @@ public class XMLUserDAO implements UserDAO{
 			System.out.println(e);
 		}
 	}
-
+	
 	/**
-	 * Traverses over the XML file and asks if both userName and password match
+	 * Traverses over the XML file and asks if both <i>userName</i> and <i>password</i> match.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean authenticate(String userName, String password) {		

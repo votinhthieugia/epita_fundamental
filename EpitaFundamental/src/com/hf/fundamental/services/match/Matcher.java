@@ -1,15 +1,16 @@
+/**
+ * Matcher.java
+ */
 package com.hf.fundamental.services.match;
 
 /**
- * This is an interface to define the Matcher behavior
- * @author tbrou
- *
+ * The {@code Matcher<t>} interface defines the <i>Matcher behavior</i>.
+ * @author Hoang / Favio
  * @param <T> any type
  */
 public interface Matcher<T> {
 
-	/**
-	 * 
+	/**	
 	 * @param criteria
 	 * @param toBeMatched
 	 * @return true if the criteria matches the toBeMatched instance

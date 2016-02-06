@@ -1,3 +1,6 @@
+/**
+ * MenuView.java
+ */
 package com.hf.fundamental.view;
 
 import java.awt.EventQueue;
@@ -9,33 +12,22 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.hf.fundamental.controller.ViewController;
+import com.hf.fundamental.datamodel.Identity;
 import com.hf.fundamental.view.listeners.BtnCreateIdentityListener;
 import com.hf.fundamental.view.listeners.BtnIdentitiesListener;
 import com.hf.fundamental.view.listeners.BtnLogoutListener;
 
+/**
+ * The {@code MenuView} JFrame displays the <i>GUI</i> that contains the options for <i>Identities</i>, <i>Creating Identity</i>
+ * and <i>Logout</i>
+ * @author Hoang / Favio
+ *
+ */
 public class MenuView extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuView frame = new MenuView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JPanel contentPane;	
 
 	/**
 	 * Create the frame.
@@ -44,6 +36,7 @@ public class MenuView extends JFrame {
 		ViewController.getInstance().addFrame(ViewIndex.MENU, this);
 		initComponents();
 	}
+	
 	
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

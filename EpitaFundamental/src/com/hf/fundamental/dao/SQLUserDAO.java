@@ -8,8 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
 
+/**
+ * The {@code SQLUserDAO} class has the {@link User } <i> CRUD</i> methods implementation for databases.
+ * @author Hoang / Favio
+ *
+ */
 public class SQLUserDAO extends SqlDAO implements UserDAO {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean authenticate(String userName, String password) throws Exception {
 		String query = "select * from identities where displayName = ? and password = ?";

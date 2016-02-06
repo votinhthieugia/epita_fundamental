@@ -1,3 +1,6 @@
+/**
+ * LoginView.java
+ */
 package com.hf.fundamental.view;
 
 import java.awt.Font;
@@ -18,19 +21,28 @@ import javax.swing.border.EmptyBorder;
 import com.hf.fundamental.controller.ApplicationController;
 import com.hf.fundamental.controller.ViewController;
 import com.hf.fundamental.dao.Storage;
+import com.hf.fundamental.datamodel.Identity;
 
+/**
+ * The {@code LoginView} JFrame displays the <i>GUI</i> that contains the components for 
+ * login, the user will be able to choose the data storage.
+ * @author Hoang / Favio
+ *
+ */
 public class LoginView extends JFrame {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Swing Components declaration
+	 */
 	private JPanel contentPane;
 	private JTextField userTextField;
 	private JPasswordField passwordTextField;
 	private ButtonGroup buttonGroup;
 	private JRadioButton rdbtnXmlFiles;
 	private JRadioButton rdbtnDataBase; 
+	
 	/**
 	 * Create the frame.
 	 */
@@ -39,6 +51,9 @@ public class LoginView extends JFrame {
 		initComponents();
 	}
 
+	/**
+	 * Initialize Swing Components
+	 */
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
@@ -134,6 +149,9 @@ public class LoginView extends JFrame {
 		contentPane.add(lblSelectFormatTo);
 	}
 
+	/**
+	 * Action Listener Methods 
+	 */
 	private void quitButtonActionPerformed(ActionEvent e) {
 		System.exit(0);		
 	}
@@ -173,6 +191,9 @@ public class LoginView extends JFrame {
         }
 	}
 	
+	/**
+	 * Clean the fields when wrong 
+	 */
 	private void clearFields() {
         userTextField.setText("");
         passwordTextField.setText("");

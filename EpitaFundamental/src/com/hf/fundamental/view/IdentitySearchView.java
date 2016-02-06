@@ -1,11 +1,11 @@
+/**
+ * IdentitySearchView
+ */
 package com.hf.fundamental.view;
 
-import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,22 +25,22 @@ import javax.swing.event.ListSelectionListener;
 import com.hf.fundamental.controller.ApplicationController;
 import com.hf.fundamental.controller.ViewController;
 import com.hf.fundamental.datamodel.Identity;
+import com.hf.fundamental.util.Reflection;
 import com.hf.fundamental.view.listeners.BtnLogoutListener;
-import com.hf.funproject.util.Reflection;
 
+/**
+ * The {@code IdentitySearchView} JFrame displays the <i>GUI</i> that contains the components for 
+ * displaying the {@link Identity}'s fields and modifying them
+ * @author Hoang / Favio
+ *
+ */
 public class IdentitySearchView extends JFrame {
-
+	
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
-	private JComboBox fieldComboBox; 
-
-	public static void main(String[] args) {
-		new IdentitySearchView().setVisible(true);
-	}
-	/**
-	 * Launch the application.
-	 */
+	private JComboBox fieldComboBox; 	
 
 	/**
 	 * Create the frame.
@@ -49,6 +49,7 @@ public class IdentitySearchView extends JFrame {
 		initComponents();		
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loadComboBox() {
 		fieldComboBox.addItem("displayName");
 		fieldComboBox.addItem("email");
@@ -75,6 +76,9 @@ public class IdentitySearchView extends JFrame {
 		});
 	}
 
+	/**
+	 * Initialize Swing Components
+	 */
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 400);
@@ -188,6 +192,10 @@ public class IdentitySearchView extends JFrame {
 			System.out.println(e.toString());
 		}
 	}
+	
+	/**
+	 *Action Listener Methods
+	 */
 	
 	private void backButtonActionPerformed() {
 		ViewController.getInstance().showView(ViewIndex.MENU);

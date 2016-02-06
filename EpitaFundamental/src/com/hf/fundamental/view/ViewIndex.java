@@ -1,5 +1,13 @@
+/**
+ * ViewIndex.java
+ */
 package com.hf.fundamental.view;
 
+/**
+ * The {@code ViewIndex} class contains the list of <i>Views</i> available for the user to interact with
+ * @author Favio
+ *
+ */
 public class ViewIndex {
 
 	public static final int LOGIN = 0;//

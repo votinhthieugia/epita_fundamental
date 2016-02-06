@@ -1,6 +1,8 @@
+/**
+ * CreateIdentityView.java
+ */
 package com.hf.fundamental.view;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,12 +31,18 @@ import com.hf.fundamental.datamodel.Identity;
 import com.hf.fundamental.view.listeners.BtnIdentitiesListener;
 import com.hf.fundamental.view.listeners.BtnLogoutListener;
 
+/**
+ * The {@code CreateIdentityView} JFrame displays the <i>GUI</i> that contains the components for 
+ * filling {@link Identity}'s fields in order to create a new {@code Identity}
+ * @author Hoang / Favio
+ *
+ */
 public class CreateIdentityView extends JFrame {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
+	/**
+	 * Swing Components declaration
+	 */
 	private JPanel contentPane;
 	private JTextField textName;
 	private JTextField textEmail;
@@ -56,22 +64,6 @@ public class CreateIdentityView extends JFrame {
 	private Map<String, String> attributes;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateIdentityView frame = new CreateIdentityView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public CreateIdentityView() {
@@ -81,6 +73,9 @@ public class CreateIdentityView extends JFrame {
 		attributes = new HashMap<String, String>();
 	}
 
+	/**
+	 * Initialize Swing Components
+	 */
 	private void initComponents() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 350);
@@ -214,6 +209,9 @@ public class CreateIdentityView extends JFrame {
 		});
 	}
 	
+	/**
+	 * Action Listener Methods 
+	 */
 	private void loadAttribute() {
 		String[] array = list.getSelectedValue().split(":");
 		textAttributeKey.setText(array[0]);

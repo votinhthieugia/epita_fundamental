@@ -9,10 +9,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * The {@code SQLDAO} class defines the methods needed to establish and close the connection with a database.
+ * <p>
+ * It uses a <b>properties file</b> where the data base <b>configuration is provided by the user</b>.
+ * @author Hoang / Favio
+ *
+ */
 public class SqlDAO {
 	// The jdbc connection.
 	protected Connection connection;
 	
+	/**
+	 * By creating the instance of SQLDAO, it invokes the method configure to read the configurations 
+	 * from a properties file and then it invokes getConnection Method to get the JDBC connection.
+	 */
 	public SqlDAO() {
 		configure();
 		
@@ -66,7 +77,7 @@ public class SqlDAO {
 	}
 	
 	/**
-	 * Close: release the connection.
+	 * Release the connection.
 	 */
 	public void close() {
 		try {
